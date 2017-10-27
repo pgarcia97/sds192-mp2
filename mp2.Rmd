@@ -10,9 +10,22 @@ output: html_document
 
 This project is so interesting and relevant to my life!
 Made a change.
-```{r, include=FALSE}
+```{r, include=TRUE}
+library(RColorBrewer)
+library(tidyverse)
+library(ggplot2)
+library(plotly) 
+library(ggthemes)
+library(scales)
+
 load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
+
+ggplot(data=house_elections, aes(x=candidate_name, y=general_votes)) + 
+  geom_point(aes(color = party)) 
+
+#ggplot()+
+#geom_line(data=house_elections, aes(x=candidate_name, y=general_votes), color='red')
 ```
