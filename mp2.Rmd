@@ -1,16 +1,14 @@
 ---
 title: "Mini-Project 2"
-author: "Your Name Here"
+author: "Perla Garcia, Kiki Teshome, Zoraida Colon"
 date: "October 31, 2017"
 output: html_document
 ---
 
 
-## Loading the data
-
-This project is so interesting and relevant to my life!
-Made a change.
-```{r, include=TRUE}
+## Who Paid more to Win
+This project is working to demonstrate the max contributions for and against candidates in the elections according to state. 
+```{r, include=TRUE, message = FALSE, echo = FALSE}
 library(RColorBrewer)
 library(tidyverse)
 library(ggplot2)
@@ -23,9 +21,45 @@ load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
 
-ggplot(data=house_elections, aes(x=candidate_name, y=general_votes)) + 
-  geom_point(aes(color = party)) 
+# house_elections%>%
+#   ggplot(aes(x=candidate_name, y= general_votes)) + 
+#     geom_point(aes(color = state)) 
+# 
+# contributions%>%
+#   filter(transaction_type == "24E")%>% ##for money
+#   ggplot(aes(x = name, y = transaction_amt))+
+#     geom_line(aes(color = state))
 
-#ggplot()+
-#geom_line(data=house_elections, aes(x=candidate_name, y=general_votes), color='red')
+
+
+# neatinfo_money <- contributions %>%
+#   filter(state == "MD" & transaction_type %in% c("24A", "24E")) %>%
+#   group_by(transaction_type) %>%
+#   summarize(total = sum(transaction_amt))
+# head(neatinfo_money)
+
+
+#ggplot(data=neatinfo_money, aes(x=transaction_type, y=total)) +
+ # geom_bar(stat="identity")
+
+
+money_info <- function(name_arg){
+  contributions %>%
+    filter(state == name_arg & transaction_type %in% c("24A", "24E")) %>%
+    group_by(transaction_type) %>%
+    summarize(total = sum(transaction_amt))%>%
+    ggplot(aes(x=transaction_type, y=total, fill = transaction_type)) +
+        geom_bar(stat="identity")+
+    ggtitle(paste0(name_arg))
+  
+}
+
+all_states <- c("AL", "AK", "AZ", "AR")
+
+names<-lapply(all_states, FUN = money_info)
+
+names[[1]]
+names[[2]]
+names[[3]]
+names[[4]]
 ```
