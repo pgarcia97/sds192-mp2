@@ -20,7 +20,7 @@ load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
-
+options(scipen=10)
 
 money_info <- function(name_arg){
   contributions %>%
@@ -35,10 +35,11 @@ money_info <- function(name_arg){
     geom_point(size = 2)+
   ggtitle(paste0(name_arg))+
   scale_color_manual(labels = c("Contribution in Support", "Contribution Against"), values = c("Forest Green", "red"))
+    #scale_y_continuous(labels = format(transaction_amount, scientific = FALSE))
 }
     
   
-all_states <- c("CO", "FL", "IA", "MI", "MN", "OH", "NV", "NH","NC","PA","VA", "WI")
+all_states <- c("CO", "FL", "IA", "MI", "MN", "OH", "NV", "NH","NC","PA","VA", "WI", "MA", "OK")
 names<-lapply(all_states, FUN = money_info)
 
 names[[1]]
@@ -53,4 +54,6 @@ names[[9]]
 names[[10]]
 names[[11]]
 names[[12]]
+names[[13]]
+names[[14]]
 ```
