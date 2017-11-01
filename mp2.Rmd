@@ -26,25 +26,31 @@ money_info <- function(name_arg){
   contributions %>%
   inner_join(candidates, by = "cand_id")%>%
   filter(cand_party_affiliation == "REP" | cand_party_affiliation == "DEM")%>%
+  filter(state == name_arg & transaction_type %in% c("24A", "24E"))%>%
   group_by(transaction_type)%>%
   group_by(cand_party_affiliation)%>%
-  filter(state == name_arg & transaction_type %in% c("24A", "24E"))%>%
-  mutate(pos = sum(transaction_type == "24A"), neg = sum(transaction_type== "24E"))%>%
+  mutate(transaction_total = sum(transaction_amt))%>%
   ggplot(aes(x=cand_party_affiliation, y=transaction_amt, 
              color = transaction_type)) +
-  geom_point()+
-    ggtitle(paste0(name_arg))+
-    scale_color_manual(labels = c("Contribution in Support", "Contribution Against"), values = c("Forest Green", "red"))
-
+    geom_point(size = 2)+
+  ggtitle(paste0(name_arg))+
+  scale_color_manual(labels = c("Contribution in Support", "Contribution Against"), values = c("Forest Green", "red"))
 }
     
   
-all_states <- c("AL", "AK", "AZ", "AR")
-
+all_states <- c("CO", "FL", "IA", "MI", "MN", "OH", "NV", "NH","NC","PA","VA", "WI")
 names<-lapply(all_states, FUN = money_info)
 
 names[[1]]
 names[[2]]
 names[[3]]
 names[[4]]
+names[[5]]
+names[[6]]
+names[[7]]
+names[[8]]
+names[[9]]
+names[[10]]
+names[[11]]
+names[[12]]
 ```
